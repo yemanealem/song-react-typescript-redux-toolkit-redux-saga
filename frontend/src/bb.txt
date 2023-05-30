@@ -1,0 +1,12 @@
+Get http://localhost:8800/api/songs
+
+Post http://localhost:8800/api/songs
+content-type: application/json
+
+{
+    "artistName": "sample",
+     "title": "sample",
+      "genere": "sample",
+      "album":"keyde eye keyde"
+    
+}
