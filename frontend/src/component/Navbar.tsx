@@ -14,7 +14,7 @@ const Navbar:React.FC = ()  => {
       <Flex
            px={2}
            color='white'
-           bg='black'
+           bg='#04AA6D'
            alignItems='center'
            justifyContent="center"
            >

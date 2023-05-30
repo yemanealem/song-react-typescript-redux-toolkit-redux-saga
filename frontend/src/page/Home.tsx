@@ -16,7 +16,8 @@ const Home:React.FC = ()  => {
  
   const dispatch = useDispatch();
   const songs = useSelector((state: RootState) => state.songs.songs)
-  const [songLists,setSongList]=useState<Song[]>()
+  const [songLists,setSongList]=useState<Song[]>([])
+  const [searchValue,setSearchValue]=useState<string>('')
   const isloading = useSelector((state: RootState) => state.songs.isloading)
   const [song, setSong] = useState<Song>({title : 'pencil', genere :"vv" ,artistName:"ccc",album:'ffff'});
  
@@ -28,6 +29,46 @@ const deleteHandler=(value:any):void=>{
     
     dispatch(addSong(song))
 }
+const searchHandler = (value:string) => {
+  setSearchValue(value);
+   if(value) {
+   
+     const fiteredData=songs.filter((s) => {
+      return s.artistName.toString()
+          .toLowerCase()
+          .includes(searchValue.toString().toLowerCase())
+    
+    });    
+    setSongList(fiteredData)     
+   
+   }
+   
+   else {
+    {
+      setSongList(songs)
+      console.log('hanging me')
+     }
+   }  
+
+
+
+
+};
+
+useEffect(()=>{
+
+  if(songs)
+     {
+      setSongList(songs)
+     }
+
+
+    },[songs])
+
+
+
+
+
 useEffect(()=> {
   dispatch(getSongFetch())
 },[])
@@ -42,22 +83,22 @@ useEffect(()=> {
             }}>
         <div className='search' css={css`
               
-               padding: 6px;
-               margin: 18px;
+               padding: 12px;
+             
                margin-right: 16px;
                border: none;
                font-size: 17px;
              
           
          `}>
-        <input type="text" placeholder="Search.." />
-       <Link_URL to={'addsong'}>
+        <input type="text" placeholder="Search by Artist Name.." onChange={(e)=>searchHandler(e.target.value)} />
+       <Link_URL to={'/addsong'} style={{margin:"200px"}}>
         <span> <Button 
                 as="a"
                 color="white"
-                bg="black"
+                bg="#04AA6D"
                 mr={3}
-                ml="40%"
+          
             >
               Add New Song
             </Button></span>
@@ -70,7 +111,8 @@ useEffect(()=> {
           width: 100%;
           
          `}>
-              <tr css={css`
+         <thead>
+         <tr css={css`
             border-bottom: 2px solid green;
             text-align: left;
             padding: 8px;
@@ -85,40 +127,43 @@ useEffect(()=> {
                 <th>Genere</th>
                 <th>Action</th>
               </tr>
-                 {songs.length > 0 && songs.map((song,index)=>
+         </thead>
+              <tbody>
+              {songLists.length > 0 && songLists.map((song,index)=>
                   
-                    <tr>
-                          <td >{song.title}</td>
-                          <td >{song.artistName}</td>
-                          <td >{song.album}</td>
-                          <td >{song.genere}</td>
-                          <td>
-                            
-                            
-                            <Link_URL to={`/editsong/${song._id}`} className="btn btn-info">
-                              <span>
-                              <Button as="a"
-                                      color="white"
-                                      bg="#5dbea3">
-                                      
-                                  edit
-                          </Button>
-                              </span>
-                                </Link_URL>
-                               
-                          &nbsp;
-                          <Button onClick={() => deleteHandler(song._id)}
-                          as="a"
-                          color="white"
-                          bg="red">
+                  <tr key={song._id}>
+                        <td >{song.title}</td>
+                        <td >{song.artistName}</td>
+                        <td >{song.album}</td>
+                        <td >{song.genere}</td>
+                        <td>
+                          
+                          
+                          <Link_URL to={`/editsong/${song._id}`} className="btn btn-info">
+                            <span>
+                            <Button as="a"
+                                    color="white"
+                                    bg="#5dbea3">
+                                    
+                                edit
+                        </Button>
+                            </span>
+                              </Link_URL>
+                             
+                        &nbsp;
+                        <Button onClick={() => deleteHandler(song._id)}
+                        as="a"
+                        color="white"
+                        bg="red">
 
-                          delete
-                          </Button></td> 
-                  </tr>
-                 
-                 )
+                        delete
+                        </Button></td> 
+                </tr>
+               
+               )
 
-                 }
+               }
+              </tbody>
             </table>
               
    </div>
