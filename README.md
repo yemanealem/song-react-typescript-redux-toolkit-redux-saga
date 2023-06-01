@@ -2,7 +2,7 @@
     using react+TypeScript+redux-toolkit+redux-saga (for frontend)
     rebass and emotion for styling
     express js (for backend)
-
+    Docker for the back-end
 
 
  
