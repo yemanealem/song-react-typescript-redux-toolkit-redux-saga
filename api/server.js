@@ -7,7 +7,7 @@ import cors from "cors";
 
 const app = express();
 dotenv.config();
-// mongoose.set("strictQuery", true);
+
 mongoose.set('strictQuery', false)
 mongoose.connect('mongodb://0.0.0.0:27017/SONG', {
   useNewUrlParser: true,
@@ -24,7 +24,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 //     console.log(error);
 //   }
 // };
-
 app.use(cors())
 app.use(express.json());
 app.use(cookieParser());
